@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     const code = typeof error === "object" && error && "code" in error ? String(error.code) : "";
-    if (code.includes("CONSTRAINT")) return NextResponse.json({ ok: true });
+    if (code.includes("CONSTRAINT")) return NextResponse.json({ error: "An account with this email already exists. Log in instead." }, { status: 409 });
     console.error("Account registration failed", error);
     return NextResponse.json({ error: "Unable to create your account right now." }, { status: 500 });
   }

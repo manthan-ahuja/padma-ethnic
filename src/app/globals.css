@@ -18,7 +18,7 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 92px; }
-body { margin: 0; overflow-x: clip; background: var(--paper); color: var(--ink); font-family: var(--sans); text-rendering: optimizeLegibility; }
+body { margin: 0; overflow-x: clip; background: var(--paper); color: var(--ink); font-family: var(--sans); font-variant-numeric: lining-nums tabular-nums; text-rendering: optimizeLegibility; }
 button, input { font: inherit; }
 a { color: inherit; text-decoration: none; }
 button, a { -webkit-tap-highlight-color: transparent; }
@@ -333,6 +333,7 @@ em { font-weight: 400; }
 .account-card .account-email { margin-bottom: 32px; }
 .account-secondary-action { background: transparent; }
 .account-loading { min-height: 270px; display: grid; place-items: center; color: var(--muted); font-family: var(--serif); font-size: 18px; }
+.account-auth-intro { margin: 12px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
 .account-auth-tabs { margin: 28px 0 24px; display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line); }
 .account-auth-tabs button { border: 0; border-bottom: 2px solid transparent; padding: 12px; background: transparent; color: var(--muted); cursor: pointer; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 .account-auth-tabs button[aria-pressed="true"] { border-color: var(--wine); color: var(--wine); }
@@ -343,6 +344,7 @@ em { font-weight: 400; }
 .account-primary-action { min-height: 48px; border: 1px solid var(--wine); padding: 0 20px; background: var(--wine); color: #fff9f0; cursor: pointer; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 .account-primary-action:disabled { cursor: wait; opacity: .6; }
 .account-form-error, .account-page-error { color: #8f271d; font-size: 12px; line-height: 1.5; }
+.account-form-success { margin: 0; border: 1px solid rgba(40,90,64,.24); padding: 11px 13px; background: #f3f8f1; color: #285a40; font-size: 12px; line-height: 1.5; }
 .account-page-error { grid-column: 1 / -1; margin: 0; padding: 13px 18px; border: 1px solid rgba(177,55,32,.25); background: #fff7f2; }
 .account-page-error button { border: 0; padding: 4px 8px; background: transparent; color: inherit; font: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; }
 .account-auth-divider { margin: 24px 0; border-top: 1px solid var(--line); text-align: center; }

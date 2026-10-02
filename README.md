@@ -178,7 +178,7 @@ CUSTOMER_DATABASE_URL=libsql://YOUR_DATABASE.turso.io
 CUSTOMER_DATABASE_AUTH_TOKEN=your-server-only-token
 ```
 
-The authenticated account APIs enforce ownership for carts, addresses and orders. New Cashfree or Shopify order integrations should call the server-side `recordOrder` repository method only after payment/order verification. Until that checkout synchronization is connected, **My orders** truthfully shows an empty state and does not invent Shopify history.
+The authenticated account APIs enforce ownership for carts, addresses and orders. Future Shopify order integrations should call the server-side `recordOrder` repository method only after payment/order verification. Until that checkout synchronization is connected, **My orders** truthfully shows an empty state and does not invent Shopify history.
 
 ### Security model
 

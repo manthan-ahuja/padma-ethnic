@@ -2,11 +2,15 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AccountExperience } from "./account-experience";
+import { signIn } from "next-auth/react";
 
 const auth = vi.hoisted(() => ({
   value: {
     data: { user: { id: "account-a", name: "Alice", email: "alice@example.com" } },
-    status: "authenticated" as const,
+    status: "authenticated",
+  } as {
+    data: { user: { id: string; name: string; email: string } } | null;
+    status: "authenticated" | "unauthenticated" | "loading";
   },
 }));
 
@@ -32,6 +36,7 @@ function jsonResponse(body: unknown, ok = true) {
 
 describe("AccountExperience", () => {
   beforeEach(() => {
+    vi.mocked(signIn).mockReset();
     auth.value = {
       data: { user: { id: "account-a", name: "Alice", email: "alice@example.com" } },
       status: "authenticated",
@@ -114,5 +119,25 @@ describe("AccountExperience", () => {
     await user.click(screen.getByRole("button", { name: "My orders" }));
     expect(screen.getByRole("heading", { name: "Order history unavailable" })).toBeInTheDocument();
     expect(screen.queryByText("No orders yet")).not.toBeInTheDocument();
+  });
+
+  it("creates an account during signup without logging in automatically", async () => {
+    auth.value = { data: null, status: "unauthenticated" };
+    const fetchMock = vi.fn().mockImplementation((input: RequestInfo | URL) => {
+      if (String(input).includes("/api/account/register")) return jsonResponse({ ok: true });
+      throw new Error(`Unexpected request: ${String(input)}`);
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    const user = userEvent.setup();
+    render(<AccountExperience configured />);
+
+    await user.click(screen.getByRole("button", { name: "Sign up" }));
+    await user.type(screen.getByLabelText("Name"), "New Customer");
+    await user.type(screen.getByLabelText("Email"), "new@example.com");
+    await user.type(screen.getByLabelText("Password"), "password123");
+    await user.click(screen.getByRole("button", { name: "Create account" }));
+
+    expect(await screen.findByRole("status")).toHaveTextContent("Account created. Log in with your new details.");
+    expect(signIn).not.toHaveBeenCalled();
   });
 });

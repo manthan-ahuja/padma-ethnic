@@ -82,6 +82,7 @@ export function AccountExperience({ configured }: { configured: boolean }) {
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(credentials),
             }));
+            return;
           }
           const result = await signIn("credentials", {
             email: credentials.email,
