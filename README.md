@@ -75,7 +75,7 @@ The suite checks desktop and mobile overflow, key homepage sections, collection 
 - Search across names, categories, colours and materials
 - Search suggestions, popular searches, persistent recent searches and no-result recommendations
 - Account-connected cart with anonymous-to-account merging and colour/size variant lines
-- Dedicated cart page with quantities, removals, totals, shipping progress and Shopify-hosted checkout handoff when configured
+- Dedicated cart page with quantities, removals, totals, shipping progress and custom Pay on Delivery checkout
 - Shared browser-persistent wishlist and recently viewed products
 - Product full-screen image viewer, fit/model notes, size validation, quantity controls, share action, delivery-pincode validation and sticky mobile add-to-bag bar
 - Complete-the-look recommendations and an honest verified-review empty state
@@ -97,6 +97,19 @@ The following require Shopify or an equivalent commerce backend and external ser
 - Live Instagram feed
 - Shopify customer-profile synchronization and historical Shopify-order importing
 - Cross-device wishlist synchronization
+
+## Custom Pay on Delivery checkout configuration
+
+The cart checkout stays on the Padma website and creates a pending-payment Shopify order through the Admin GraphQL API. The server calculates available Shopify shipping rates from the submitted address, requires the customer to select one, then revalidates the selected rate before completing the order.
+
+Configure these server-only variables in `.env.local` and the deployment environment:
+
+```bash
+SHOPIFY_ADMIN_ACCESS_TOKEN=...
+SHOPIFY_ADMIN_API_VERSION=2026-07
+```
+
+The Admin API app must have permission to create and complete draft orders. Never expose `SHOPIFY_ADMIN_ACCESS_TOKEN` to browser code or commit it to the repository. The storefront currently supports Pay on Delivery only; no online payment is collected by the custom checkout.
 
 ## Shopify backend integration
 
